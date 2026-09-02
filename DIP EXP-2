@@ -1,0 +1,74 @@
+clc; 
+clear; 
+close all; 
+% Read the image 
+img = imread('C:\desktop\dip\sample.png'); 
+% Convert to grayscale if the image is RGB 
+if ndims(img) == 3 
+img = rgb2gray(img); 
+end 
+% Display grayscale image 
+imshow(img); 
+title('Grayscale Image'); 
+% Image dimensions  
+[rows, columns] = size(img); 
+% Select pixel coordinate (x,y) 
+x = 100; 
+y = 100; 
+% Check whether coordinate is valid  
+if x <= 1 || x >= columns || y <= 1 || y >= rows 
+error('Select a coordinate away from the image boundary.'); 
+end 
+% 1. Selected pixel value 
+pixel_value = img(y,x) 
+fprintf('\nSelected Pixel Coordinate: (%d,%d)\n', x, y); 
+fprintf('Selected Pixel Value: %d\n', pixel_value); 
+ 
+ 
+% 2. 4-Neighbours 
+ 
+N = img(y-1,x); % Top 
+ 
+S = img(y+1,x); % Bottom 
+E = img(y,x+1);  % Right 
+W = img(y,x-1);  % Left 
+fprintf('\n4-Neighbours:\n'); 
+fprintf('Top (N) = %d\n', N); 
+fprintf('Bottom (S) = %d\n', S); 
+fprintf('Right (E) = %d\n', E); 
+fprintf('Left (W) = %d\n', W); 
+% 3. Diagonal Neighbours 
+NW = img(y-1,x-1); 
+NE = img(y-1,x+1); 
+ 
+SW = img(y+1,x-1); 
+SE = img(y+1,x+1); 
+fprintf('\nDiagonal Neighbours:\n'); 
+fprintf('Top-Left (NW) = %d\n', NW); 
+fprintf('Top-Right  (NE) = %d\n', NE); 
+fprintf('Bottom-Left (SW) = %d\n', SW); 
+fprintf('Bottom-Right (SE) = %d\n', SE); 
+% 4. 8-Neighbours 
+fprintf('\n8-Neighbours:\n') 
+fprintf('%d %d %d\n', NW, N, NE); 
+fprintf('%d P %d\n', W, E); 
+fprintf('%d %d %d\n', SW, S, SE); 
+% 5. Distance between two specified pixels 
+% First pixel 
+x1 = 100; 
+y1 = 100; 
+% Second pixel 
+x2 = 150; 
+y2 = 130; 
+% Euclidean Distance 
+euclidean = sqrt((x2-x1)^2 + (y2-y1)^2); 
+% City Block Distance 
+city_block = abs(x2-x1) + abs(y2-y1); 
+% Chessboard Distance 
+chessboard = max(abs(x2-x1), abs(y2-y1)); 
+fprintf('\nDistance Calculations:\n'); 
+fprintf('First Pixel : (%d,%d)\n', x1, y1); 
+fprintf('Second Pixel : (%d,%d)\n', x2, y2); 
+fprintf('Euclidean Distance = %.2f\n', euclidean); 
+fprintf('City Block Distance = %d\n', city_block); 
+fprintf('Chessboard Distance = %d\n', chessboard); 
